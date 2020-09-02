@@ -3,13 +3,15 @@
     <div id="todoList">
       <transition-group name="list" tag="p">
         <ul key="ul" v-if="isShowTodos">
-          <li v-for="todo in this.$store.state.todos" v-bind:key="todo.id">
-            <button class="remove" @click="removeTodo(todo)">x</button>
-            <button v-if="!todo.done" class="done" @click="doneTodo(todo)">D</button>
-            <span v-bind:class="{ doneTodo: todo.done }">{{ todo.text }}</span>
-          </li>
+          <transition-group name="list" tag="p">
+            <li v-for="todo in this.$store.state.todos" v-bind:key="todo.id">
+              <button class="remove" @click="removeTodo(todo)">x</button>
+              <button v-if="!todo.done" class="done" @click="doneTodo(todo)">D</button>
+              <span v-bind:class="{ doneTodo: todo.done }">{{ todo.text }}</span>
+            </li>
+          </transition-group>
         </ul>
-        <div key="ekse" v-else>s</div>
+        <div id="emptyList" key="ekse" v-else>Лист пустой :(</div>
       </transition-group>
     </div>
   </div>
@@ -90,6 +92,7 @@ button.done:active {
 }
 .doneTodo {
   text-decoration: line-through;
+  color: #00232275;
 }
 .list-item {
   display: inline-block;
@@ -97,10 +100,21 @@ button.done:active {
 }
 .list-enter-active,
 .list-leave-active {
-  transition: all 1s;
+  transition: all 300ms;
 }
 .list-enter, .list-leave-to /* .list-leave-active до версии 2.1.8 */ {
   opacity: 0;
   transform: translateY(30px);
+}
+#emptyList {
+  display: block;
+  background: var(--white);
+  padding: 10px;
+  color: var(--blue);
+  border-radius: 4px;
+  border: solid 1px var(--blue);
+  width: 100%;
+  margin-top: 3px;
+  font-size: 36px;
 }
 </style>
